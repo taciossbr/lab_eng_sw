@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+
+{% block inner_content %}
+<h1 class="title">Pedidos</h1>
+<table class="table">
+  <tr>
+      <th>id</th>
+      <th>status</th>
+      <th>modelo_carro</th>
+      <th>cliente</th>
+      <th>status_pagamento</th>
+      <th>forma_pagamento</th>
+      <th>dt_pedido</th>
+      <th>dt_entrega</th>
+      <th>dt_retirada</th>
+  </tr>
+  {% for pedido in pedidos %}
+    <tr>
+        <td>{{pedido.id}}</td>
+        <td>{{pedido.status}}</td>
+        <td>{{pedido.modelo_carro}}</td>
+        <td>{{pedido.cliente}}</td>
+        <td>{{pedido.status_pagamento}}</td>
+        <td>{{pedido.forma_pagamento}}</td>
+        <td>{{pedido.dt_pedido}}</td>
+        <td>{{pedido.dt_entrega}}</td>
+        <td>{{pedido.dt_retirada}}</td>
+      <td><a href="/pedido/{{pedido.id}}" class="button is-primary">Ir</a></td>
+
+    </tr>
+  {% endfor %}
+</table>
+{% if user_role == 'admin' or user_role == 'gerente' %}
+<h1 class="title">Funcionarios</h1>
+  <table class="table">
+    <tr>
+        <th>id</th>
+        <th>nome</th>
+        <th>email</th>
+    </tr>
+    {% for funcionario in funcionarios %}
+      <tr>
+          <td>{{funcionario.id}}</td>
+          <td>
+            {% if funcionario.user.first_name or funcionario.user.last_name %} 
+              {{funcionario.user.first_name}} {{funcionario.user.last_name}}
+            {% else %}
+              {{funcionario.user.username}}
+            {% endif %}
+          </td>
+          <td>{{funcionario.user.email}}</td>
+        <td><a href="/funcionario/{{funcionario.id}}" class="button is-primary">Ir</a></td>
+  
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+{% endblock %}

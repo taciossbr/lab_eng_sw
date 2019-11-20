@@ -1,0 +1,27 @@
+{% extends "admin/base.html" %}
+
+
+{% block extrahead %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+<style>
+.breadcrumbs {
+    display: none
+}
+.button {
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <p><b>Username:</b> {{user.get_username}}</p>
+    <p><b>Nome:</b> {{user.get_firstname}}</p>
+    <p><b>Função:</b> {{user_role}}</p>
+
+    {% block inner_content %}{% endblock %}
+{% else %}
+    <p>Você não esta logado. Por favor va para a tela de <a href="/login">login</a></p>
+{% endif %}
+{% endblock %}

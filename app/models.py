@@ -18,7 +18,9 @@ class Cliente(models.Model):
     telefone = models.CharField(max_length=15)
     endereco = models.CharField(max_length=140)
     cnh = models.CharField(max_length=20)
-    
+
+    def __str__(self):
+        return self.nome
 
 class Pedido(models.Model):
     status = models.CharField(max_length=15)
@@ -27,6 +29,10 @@ class Pedido(models.Model):
         Cliente,
         on_delete=models.CASCADE,
         related_name='pedidos')
+    concessionaria = models.ForeignKey(
+        Concessionaria,
+        on_delete=models.CASCADE,
+        related_name='pedidos',)
     status_pagamento = models.CharField(max_length=15)
     forma_pagamento = models.CharField(max_length=15)
     dt_pedido = models.DateTimeField()

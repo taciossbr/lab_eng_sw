@@ -8,7 +8,6 @@ class MyAppConfig(AppConfig):
 
     def ready(self):
         from django.contrib.auth.models import Group, Permission
-        from django.contrib.contenttypes.models import ContentType
         print('oooooooooooooooooooooooooooooooooooooooooooooo')
         # Group = self.get_model('django.contrib.auth.Group')
         # Permission = self.get_model('Permission')
@@ -17,25 +16,46 @@ class MyAppConfig(AppConfig):
         change_user = Permission.objects.filter(codename='change_user')[0]
         delete_user = Permission.objects.filter(codename='delete_user')[0]
         view_user = Permission.objects.filter(codename='view_user')[0]
-        Funcionario = self.get_model('Funcionario')
-        Gerente = self.get_model('Gerente')
-        ct_funcionario = ContentType.objects.get_for_model(Funcionario)
+
+        concessionaria_permissions = Permission.objects.filter(
+            codename__endswith='concessionaria'
+        )
+        gerente_permissions = Permission.objects.filter(
+            codename__endswith='gerente'
+        )
+        funcionario_permissions = Permission.objects.filter(
+            codename__endswith='funcionario'
+        )
+        cliente_permissions = Permission.objects.filter(
+            codename__endswith='cliente'
+        )
+        pedido_permissions = Permission.objects.filter(
+            codename__endswith='pedido'
+        )
+
+        # Funcionario = self.get_model('Funcionario')
+        # Gerente = self.get_model('Gerente')
+        # ct_funcionario = ContentType.objects.get_for_model(Funcionario)
         
-        can_edit_funcionario, _ = Permission.objects.get_or_create(
-            codename="can_edit_funcionario",
-            content_type=ct_funcionario)
-        ct_gerente = ContentType.objects.get_for_model(Gerente)
-        can_edit_gerente, _ = Permission.objects.get_or_create(
-            codename="can_edit_gerente",
-            content_type=ct_gerente)
-        print(type(add_user), type(can_edit_funcionario))
+        # can_edit_funcionario, _ = Permission.objects.get_or_create(
+        #     codename="can_edit_funcionario",
+        #     content_type=ct_funcionario)
+        # ct_gerente = ContentType.objects.get_for_model(Gerente)
+        # can_edit_gerente, _ = Permission.objects.get_or_create(
+        #     codename="can_edit_gerente",
+        #     content_type=ct_gerente)
+        # print(type(add_user), type(can_edit_funcionario))
         try:
             admin_group, _ = Group.objects.get_or_create(
                 name='admin'
             )
 
-            admin_group.permissions.add(can_edit_gerente)
-            admin_group.permissions.add(can_edit_funcionario)
+            admin_group.permissions.add(*concessionaria_permissions)
+            admin_group.permissions.add(*gerente_permissions)
+            admin_group.permissions.add(*funcionario_permissions)
+            admin_group.permissions.add(*concessionaria_permissions)
+            admin_group.permissions.add(*cliente_permissions)
+            admin_group.permissions.add(*pedido_permissions)
             admin_group.permissions.add(add_user)
             admin_group.permissions.add(change_user)
             admin_group.permissions.add(delete_user)
@@ -49,7 +69,9 @@ class MyAppConfig(AppConfig):
             gerentes_group, _ = Group.objects.get_or_create(
                 name='gerentes'
             )
-            gerentes_group.permissions.add(can_edit_funcionario)
+            gerentes_group.permissions.add(*funcionario_permissions)
+            gerentes_group.permissions.add(*cliente_permissions)
+            gerentes_group.permissions.add(*pedido_permissions)
             gerentes_group.permissions.add(add_user)
             gerentes_group.permissions.add(change_user)
             gerentes_group.permissions.add(delete_user)
@@ -61,6 +83,8 @@ class MyAppConfig(AppConfig):
             funcionarios, _ = Group.objects.get_or_create(
                 name='funcionarios'
             )
+            funcionarios.permissions.add(*cliente_permissions)
+            funcionarios.permissions.add(*pedido_permissions)
         except Exception as e:
             print(e)
             

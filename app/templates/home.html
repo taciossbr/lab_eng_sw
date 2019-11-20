@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+{% block inner_content %}
+<table class="table">
+    <tr>
+      <th>endereco</th>
+      <th>status</th>
+      <th>telefone</th>
+      <th>horario_funcionamento</th>
+      <th>email</th>
+    </tr>
+    {% for concessionaria in concessionarias %}
+      <tr>
+        <td>{{concessionaria.endereco}}</td>
+        <td>{{concessionaria.status}}</td>
+        <td>{{concessionaria.telefone}}</td>
+        <td>{{concessionaria.horario_funcionamento}}</td>
+        <td>{{concessionaria.email}}</td>
+        <td><a href="/concessionaria/{{concessionaria.id}}" class="button is-primary">Ir</a></td>
+
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
