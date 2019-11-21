@@ -3,10 +3,15 @@
 
 {% block inner_content %}
 <h1 class="title">Pedidos</h1>
+<a href="/cliente/{{pedido.cliente.cpf}}" class="button is-secundary">Cliente</a>
 <form method="POST" class="post-form">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit" class="button is-primary">Save</button>
+  {% if user_role == 'funcionario' %}
+    <button type="submit" class="button is-primary">Efetuar Entrega</button>
+  {% else %}
+    <button type="submit" class="button is-primary">Save</button>
+  {% endif %}
 </form>
 {% if montadora_info %}
   <h2 class="title">Info da Montadora</h2>

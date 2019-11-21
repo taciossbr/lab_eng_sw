@@ -1,10 +1,13 @@
 import requests
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth import logout
 from rest_framework import viewsets
-from .models import Gerente, Funcionario, Concessionaria, Cliente, Pedido, PRODUCAO
+from .models import ( Gerente, Funcionario, Concessionaria, Cliente, Pedido, 
+                      PRODUCAO, STATUS_PAGAMENTO, STATUS_PEDIDO)
 from concessionaria.settings import BASE_MONTADORA
-from .forms import PedidoForm
+from .forms import PedidoForm, FuncionarioForm, UserForm, ReadOnlyPedidoForm, ClienteForm
 from .serializers import PedidoSerializer, ClienteSerializer, ConcessionariaSerializer
 
 
@@ -34,7 +37,7 @@ def home(request):
     if is_admin:
         concessionarias = Concessionaria.objects.all()
     elif is_gerente:
-        gerente = Gerente.objecs.filter(user=user)[0]
+        gerente = Gerente.objects.filter(user=user)[0]
         concessionarias = [gerente.concessionaria]
     elif is_funcionario:
         funcionario = Funcionario.objects.filter(user=user)[0]
@@ -67,6 +70,8 @@ def concessionaria(request, id):
             'concessionaria': concessionaria,
             'funcionarios': funcionarios,
             'pedidos': pedidos,
+            'STATUS_PAGAMENTO': dict(STATUS_PAGAMENTO),
+            'STATUS_PEDIDO': dict(STATUS_PEDIDO),
         })
 
 def pedido(request, id):
@@ -80,7 +85,10 @@ def pedido(request, id):
                             zip([is_admin, is_gerente, is_funcionario],
                                 ['admin', 'gerente', 'funcionario'])))[1]
     pedido = Pedido.objects.get(pk=id)
-    form = PedidoForm(request.POST or None, instance=pedido)
+    if is_admin or is_gerente:
+        form = PedidoForm(request.POST or None, instance=pedido)
+    else:
+        form = ReadOnlyPedidoForm(instance=pedido)
     # montadora_info = {
     #     "protocolo": 1,
     #     "data_pedido": "2019-11-19T14:32:59.291Z",
@@ -107,9 +115,21 @@ def pedido(request, id):
     except:
         ...
     if request.method == "POST":
-        sen = pedido.status != PRODUCAO and request.POST['status'] == PRODUCAO
-        pedido.status = request.POST['status']
-        pedido.status_pagamento = request.POST['status_pagamento']
+        print(is_funcionario)
+        if is_funcionario:
+            pedido.dt_retirada = datetime.now()
+            pedido.save()
+            print(pedido.dt_retirada)
+            return render(request, 'pedido.html', {
+                'site_header': 'Concessionarias',
+                'user_role': user_role,
+                'pedido': pedido,
+                'form': form,
+                'montadora_info': montadora_info,
+            })
+        sen = pedido.status != PRODUCAO and request.POST.get('status') == PRODUCAO
+        pedido.status = request.POST.get('status')
+        pedido.status_pagamento = request.POST.get('status_pagamento')
         pedido.save()
         print(sen)
         if sen:
@@ -123,7 +143,7 @@ def pedido(request, id):
         'user_role': user_role,
         'pedido': pedido,
         'form': form,
-        'montadora_info': montadora_info
+        'montadora_info': montadora_info,
     })
 
 def pedidos_update(request, id, vai):
@@ -148,6 +168,81 @@ def pedidos_update(request, id, vai):
             ...
     return redirect(f'/pedido/{pedido.id}')
 
+def funcionario(request, id):
+    if not request.user.is_authenticated:
+        return redirect('/login')
+    user = request.user
+    is_admin = 'admin' in [group.name for group in user.groups.all()] or user.is_staff
+    is_gerente = 'gerentes' in [group.name for group in user.groups.all()]
+    is_funcionario = 'funcionarios' in [group.name for group in user.groups.all()]
+    user_role = next(filter(lambda el: el[0],
+                            zip([is_admin, is_gerente, is_funcionario],
+                                ['admin', 'gerente', 'funcionario'])))[1]
+    funcionario = Funcionario.objects.get(pk=id)
+    user_form = UserForm(request.POST or None, instance=funcionario.user)
+    form = FuncionarioForm(request.POST or None, instance=funcionario)
+    if user_form.is_valid() and form.is_valid():
+        user_form.save()
+        funcionario.user.set_password(funcionario.user.password)
+        funcionario.user.save()
+        form.save()
+    return render(request, 'funcionario.html', {
+        'site_header': 'Concessionarias',
+        'user_role': user_role,
+        'funcionario': funcionario,
+        'form': form,
+        'user_form': user_form,
+    })
+
+def novo_funcionario(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
+    user = request.user
+    is_admin = 'admin' in [group.name for group in user.groups.all()] or user.is_staff
+    is_gerente = 'gerentes' in [group.name for group in user.groups.all()]
+    is_funcionario = 'funcionarios' in [group.name for group in user.groups.all()]
+    user_role = next(filter(lambda el: el[0],
+                            zip([is_admin, is_gerente, is_funcionario],
+                                ['admin', 'gerente', 'funcionario'])))[1]
+    user_form = UserForm(request.POST or None)
+    form = FuncionarioForm(request.POST or None)
+    print(user_form.is_valid(), form.is_valid())
+    if user_form.is_valid() and form.is_valid():
+        user = user_form.save()
+        print(user.id)
+        user.set_password(user.password)
+        user.save()
+        funcionario = form.save()
+        funcionario.user = user
+        funcionario.save()
+    return render(request, 'funcionario.html', {
+        'site_header': 'Concessionarias',
+        'user_role': user_role,
+        'form': form,
+        'user_form': user_form,
+    })
+
+def cliente(request, id):
+    if not request.user.is_authenticated:
+        return redirect('/login')
+    user = request.user
+    is_admin = 'admin' in [group.name for group in user.groups.all()] or user.is_staff
+    is_gerente = 'gerentes' in [group.name for group in user.groups.all()]
+    is_funcionario = 'funcionarios' in [group.name for group in user.groups.all()]
+    user_role = next(filter(lambda el: el[0],
+                            zip([is_admin, is_gerente, is_funcionario],
+                                ['admin', 'gerente', 'funcionario'])))[1]
+    cliente = Cliente.objects.get(pk=id)
+    form = ClienteForm(request.POST or None, instance=cliente)
+    return render(request, 'cliente.html', {
+        'site_header': 'Concessionarias',
+        'user_role': user_role,
+        'form': form,
+    })
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
 
 class PedidoViewSet(viewsets.ModelViewSet):
     queryset = Pedido.objects.all()

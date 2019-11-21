@@ -8,6 +8,19 @@ class MyAppConfig(AppConfig):
 
     def ready(self):
         from django.contrib.auth.models import Group, Permission
+        from django.template.defaulttags import register
+        @register.filter
+        def get_item(dictionary, key):
+            return dictionary.get(key)
+        admin_group, _ = Group.objects.get_or_create(
+            name='admin'
+        )
+        gerentes_group, _ = Group.objects.get_or_create(
+            name='gerentes'
+        )
+        funcionarios, _ = Group.objects.get_or_create(
+            name='funcionarios'
+        )
         from . import signals # noqa
         print('oooooooooooooooooooooooooooooooooooooooooooooo')
         # Group = self.get_model('django.contrib.auth.Group')
@@ -20,6 +33,9 @@ class MyAppConfig(AppConfig):
 
         concessionaria_permissions = Permission.objects.filter(
             codename__endswith='concessionaria'
+        )
+        admin_permissions = Permission.objects.filter(
+            codename__endswith='admin'
         )
         gerente_permissions = Permission.objects.filter(
             codename__endswith='gerente'
@@ -47,10 +63,7 @@ class MyAppConfig(AppConfig):
         #     content_type=ct_gerente)
         # print(type(add_user), type(can_edit_funcionario))
         try:
-            admin_group, _ = Group.objects.get_or_create(
-                name='admin'
-            )
-
+            admin_group.permissions.add(*admin_permissions)
             admin_group.permissions.add(*concessionaria_permissions)
             admin_group.permissions.add(*gerente_permissions)
             admin_group.permissions.add(*funcionario_permissions)
@@ -67,9 +80,6 @@ class MyAppConfig(AppConfig):
             
         try:
             
-            gerentes_group, _ = Group.objects.get_or_create(
-                name='gerentes'
-            )
             gerentes_group.permissions.add(*funcionario_permissions)
             gerentes_group.permissions.add(*cliente_permissions)
             gerentes_group.permissions.add(*pedido_permissions)
@@ -81,9 +91,6 @@ class MyAppConfig(AppConfig):
             print(e)
             
         try:
-            funcionarios, _ = Group.objects.get_or_create(
-                name='funcionarios'
-            )
             funcionarios.permissions.add(*cliente_permissions)
             funcionarios.permissions.add(*pedido_permissions)
         except Exception as e:

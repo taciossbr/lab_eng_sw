@@ -10,6 +10,8 @@ class Concessionaria(models.Model):
     telefone = models.CharField(max_length=15)
     horario_funcionamento = models.CharField(max_length=25)
     email = models.CharField(max_length=120)
+    def __str__(self):
+        return self.endereco
 
 
 class Cliente(models.Model):
@@ -93,6 +95,8 @@ class Pedido(models.Model):
     dt_pedido = models.DateTimeField()
     dt_entrega = models.DateTimeField()
     dt_retirada = models.DateTimeField()
+    def __str__(self):
+        return 'Pedido #' + str(self.id)
 
 class Admin(models.Model):
     user = models.OneToOneField(
@@ -100,6 +104,8 @@ class Admin(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True)
+    def __str__(self):
+        return self.user.username
 
 class Gerente(models.Model):
     # nome = models.CharField(max_length=50)
@@ -113,6 +119,8 @@ class Gerente(models.Model):
         Concessionaria,
         on_delete=models.CASCADE,
         related_name='gerentes')
+    def __str__(self):
+        return self.user.username
 
 
 class Funcionario(models.Model):
@@ -127,3 +135,5 @@ class Funcionario(models.Model):
         Concessionaria,
         on_delete=models.CASCADE,
         related_name='funcionarios')
+    def __str__(self):
+        return self.user.username

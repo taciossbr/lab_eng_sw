@@ -16,10 +16,13 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+    <a href="/logout/" class="button is_alert">Logout</a>
     <p><b>Username:</b> {{user.get_username}}</p>
     <p><b>Nome:</b> {{user.get_firstname}}</p>
     <p><b>Função:</b> {{user_role}}</p>
-
+    <input class="button" type="button is-alert" value="Voltar" onClick="history.go(-1)"> 
+    <input class="button" type="button is-alert" value="Avançar" onCLick="history.forward()"> 
+    <input class="button" type="button is-alert" value="Atualizar" onCLick="history.go(0)"> 
     {% block inner_content %}{% endblock %}
 {% else %}
     <p>Você não esta logado. Por favor va para a tela de <a href="/login">login</a></p>

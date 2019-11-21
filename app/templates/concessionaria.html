@@ -21,7 +21,7 @@
         <td>{{pedido.status}}</td>
         <td>{{pedido.modelo_carro}}</td>
         <td>{{pedido.cliente}}</td>
-        <td>{{pedido.status_pagamento}}</td>
+        <td>{{STATUS_PAGAMENTO|get_item:pedido.status_pagamento}}</td>
         <td>{{pedido.forma_pagamento}}</td>
         <td>{{pedido.dt_pedido}}</td>
         <td>{{pedido.dt_entrega}}</td>

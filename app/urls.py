@@ -14,6 +14,9 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('concessionaria/<int:id>', views.concessionaria, name='concessionaria'),
     path('pedido/<int:id>', views.pedido, name='pedido'),
+    path('funcionario/<int:id>', views.funcionario, name='funcionario'),
+    path('funcionario/', views.novo_funcionario, name='novo_funcionario'),
+    path('cliente/<int:id>', views.cliente, name='cliente'),
     path('pedido-update/<int:id>/<int:vai>', views.pedidos_update, name='pedido_update'),
     path('api/', include(router.urls)),
     path('docs/', include_docs_urls(title='My API title', public=True))
