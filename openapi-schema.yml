@@ -1,0 +1,1047 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/pedidos/:
+    get:
+      operationId: listPedidos
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    url:
+                      type: string
+                      readOnly: true
+                    status:
+                      enum:
+                      - AB
+                      - PD
+                      - AG
+                    modelo_carro:
+                      type: string
+                      maxLength: 200
+                    status_pagamento:
+                      enum:
+                      - AG
+                      - AN
+                      - AC
+                      - RE
+                    forma_pagamento:
+                      enum:
+                      - CC
+                      - CD
+                      - BB
+                      - TB
+                      - D
+                    protocolo_montadora:
+                      type: integer
+                      nullable: true
+                    dt_pedido:
+                      type: string
+                      format: date-time
+                    dt_entrega:
+                      type: string
+                      format: date-time
+                    dt_retirada:
+                      type: string
+                      format: date-time
+                    cliente:
+                      type: string
+                    concessionaria:
+                      type: string
+                  required:
+                  - modelo_carro
+                  - dt_pedido
+                  - dt_entrega
+                  - dt_retirada
+                  - cliente
+                  - concessionaria
+          description: ''
+    post:
+      operationId: createPedido
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                status:
+                  enum:
+                  - AB
+                  - PD
+                  - AG
+                modelo_carro:
+                  type: string
+                  maxLength: 200
+                status_pagamento:
+                  enum:
+                  - AG
+                  - AN
+                  - AC
+                  - RE
+                forma_pagamento:
+                  enum:
+                  - CC
+                  - CD
+                  - BB
+                  - TB
+                  - D
+                protocolo_montadora:
+                  type: integer
+                  nullable: true
+                dt_pedido:
+                  type: string
+                  format: date-time
+                dt_entrega:
+                  type: string
+                  format: date-time
+                dt_retirada:
+                  type: string
+                  format: date-time
+                cliente:
+                  type: string
+                concessionaria:
+                  type: string
+              required:
+              - modelo_carro
+              - dt_pedido
+              - dt_entrega
+              - dt_retirada
+              - cliente
+              - concessionaria
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  status:
+                    enum:
+                    - AB
+                    - PD
+                    - AG
+                  modelo_carro:
+                    type: string
+                    maxLength: 200
+                  status_pagamento:
+                    enum:
+                    - AG
+                    - AN
+                    - AC
+                    - RE
+                  forma_pagamento:
+                    enum:
+                    - CC
+                    - CD
+                    - BB
+                    - TB
+                    - D
+                  protocolo_montadora:
+                    type: integer
+                    nullable: true
+                  dt_pedido:
+                    type: string
+                    format: date-time
+                  dt_entrega:
+                    type: string
+                    format: date-time
+                  dt_retirada:
+                    type: string
+                    format: date-time
+                  cliente:
+                    type: string
+                  concessionaria:
+                    type: string
+                required:
+                - modelo_carro
+                - dt_pedido
+                - dt_entrega
+                - dt_retirada
+                - cliente
+                - concessionaria
+          description: ''
+  /api/pedidos/{id}/:
+    get:
+      operationId: retrievePedido
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this pedido.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  status:
+                    enum:
+                    - AB
+                    - PD
+                    - AG
+                  modelo_carro:
+                    type: string
+                    maxLength: 200
+                  status_pagamento:
+                    enum:
+                    - AG
+                    - AN
+                    - AC
+                    - RE
+                  forma_pagamento:
+                    enum:
+                    - CC
+                    - CD
+                    - BB
+                    - TB
+                    - D
+                  protocolo_montadora:
+                    type: integer
+                    nullable: true
+                  dt_pedido:
+                    type: string
+                    format: date-time
+                  dt_entrega:
+                    type: string
+                    format: date-time
+                  dt_retirada:
+                    type: string
+                    format: date-time
+                  cliente:
+                    type: string
+                  concessionaria:
+                    type: string
+                required:
+                - modelo_carro
+                - dt_pedido
+                - dt_entrega
+                - dt_retirada
+                - cliente
+                - concessionaria
+          description: ''
+    put:
+      operationId: updatePedido
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this pedido.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                status:
+                  enum:
+                  - AB
+                  - PD
+                  - AG
+                modelo_carro:
+                  type: string
+                  maxLength: 200
+                status_pagamento:
+                  enum:
+                  - AG
+                  - AN
+                  - AC
+                  - RE
+                forma_pagamento:
+                  enum:
+                  - CC
+                  - CD
+                  - BB
+                  - TB
+                  - D
+                protocolo_montadora:
+                  type: integer
+                  nullable: true
+                dt_pedido:
+                  type: string
+                  format: date-time
+                dt_entrega:
+                  type: string
+                  format: date-time
+                dt_retirada:
+                  type: string
+                  format: date-time
+                cliente:
+                  type: string
+                concessionaria:
+                  type: string
+              required:
+              - modelo_carro
+              - dt_pedido
+              - dt_entrega
+              - dt_retirada
+              - cliente
+              - concessionaria
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  status:
+                    enum:
+                    - AB
+                    - PD
+                    - AG
+                  modelo_carro:
+                    type: string
+                    maxLength: 200
+                  status_pagamento:
+                    enum:
+                    - AG
+                    - AN
+                    - AC
+                    - RE
+                  forma_pagamento:
+                    enum:
+                    - CC
+                    - CD
+                    - BB
+                    - TB
+                    - D
+                  protocolo_montadora:
+                    type: integer
+                    nullable: true
+                  dt_pedido:
+                    type: string
+                    format: date-time
+                  dt_entrega:
+                    type: string
+                    format: date-time
+                  dt_retirada:
+                    type: string
+                    format: date-time
+                  cliente:
+                    type: string
+                  concessionaria:
+                    type: string
+                required:
+                - modelo_carro
+                - dt_pedido
+                - dt_entrega
+                - dt_retirada
+                - cliente
+                - concessionaria
+          description: ''
+    patch:
+      operationId: partial_updatePedido
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this pedido.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                status:
+                  enum:
+                  - AB
+                  - PD
+                  - AG
+                modelo_carro:
+                  type: string
+                  maxLength: 200
+                status_pagamento:
+                  enum:
+                  - AG
+                  - AN
+                  - AC
+                  - RE
+                forma_pagamento:
+                  enum:
+                  - CC
+                  - CD
+                  - BB
+                  - TB
+                  - D
+                protocolo_montadora:
+                  type: integer
+                  nullable: true
+                dt_pedido:
+                  type: string
+                  format: date-time
+                dt_entrega:
+                  type: string
+                  format: date-time
+                dt_retirada:
+                  type: string
+                  format: date-time
+                cliente:
+                  type: string
+                concessionaria:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  status:
+                    enum:
+                    - AB
+                    - PD
+                    - AG
+                  modelo_carro:
+                    type: string
+                    maxLength: 200
+                  status_pagamento:
+                    enum:
+                    - AG
+                    - AN
+                    - AC
+                    - RE
+                  forma_pagamento:
+                    enum:
+                    - CC
+                    - CD
+                    - BB
+                    - TB
+                    - D
+                  protocolo_montadora:
+                    type: integer
+                    nullable: true
+                  dt_pedido:
+                    type: string
+                    format: date-time
+                  dt_entrega:
+                    type: string
+                    format: date-time
+                  dt_retirada:
+                    type: string
+                    format: date-time
+                  cliente:
+                    type: string
+                  concessionaria:
+                    type: string
+                required:
+                - modelo_carro
+                - dt_pedido
+                - dt_entrega
+                - dt_retirada
+                - cliente
+                - concessionaria
+          description: ''
+    delete:
+      operationId: destroyPedido
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this pedido.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /api/clientes/:
+    get:
+      operationId: listClientes
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    url:
+                      type: string
+                      readOnly: true
+                    nome:
+                      type: string
+                      maxLength: 50
+                    email:
+                      type: string
+                      maxLength: 120
+                    telefone:
+                      type: string
+                      maxLength: 15
+                    endereco:
+                      type: string
+                      maxLength: 140
+                    cnh:
+                      type: string
+                      maxLength: 20
+                  required:
+                  - nome
+                  - email
+                  - telefone
+                  - endereco
+                  - cnh
+          description: ''
+    post:
+      operationId: createCliente
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                nome:
+                  type: string
+                  maxLength: 50
+                email:
+                  type: string
+                  maxLength: 120
+                telefone:
+                  type: string
+                  maxLength: 15
+                endereco:
+                  type: string
+                  maxLength: 140
+                cnh:
+                  type: string
+                  maxLength: 20
+              required:
+              - nome
+              - email
+              - telefone
+              - endereco
+              - cnh
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  nome:
+                    type: string
+                    maxLength: 50
+                  email:
+                    type: string
+                    maxLength: 120
+                  telefone:
+                    type: string
+                    maxLength: 15
+                  endereco:
+                    type: string
+                    maxLength: 140
+                  cnh:
+                    type: string
+                    maxLength: 20
+                required:
+                - nome
+                - email
+                - telefone
+                - endereco
+                - cnh
+          description: ''
+  /api/clientes/{cpf}/:
+    get:
+      operationId: retrieveCliente
+      parameters:
+      - name: cpf
+        in: path
+        required: true
+        description: A unique value identifying this cliente.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  nome:
+                    type: string
+                    maxLength: 50
+                  email:
+                    type: string
+                    maxLength: 120
+                  telefone:
+                    type: string
+                    maxLength: 15
+                  endereco:
+                    type: string
+                    maxLength: 140
+                  cnh:
+                    type: string
+                    maxLength: 20
+                required:
+                - nome
+                - email
+                - telefone
+                - endereco
+                - cnh
+          description: ''
+    put:
+      operationId: updateCliente
+      parameters:
+      - name: cpf
+        in: path
+        required: true
+        description: A unique value identifying this cliente.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                nome:
+                  type: string
+                  maxLength: 50
+                email:
+                  type: string
+                  maxLength: 120
+                telefone:
+                  type: string
+                  maxLength: 15
+                endereco:
+                  type: string
+                  maxLength: 140
+                cnh:
+                  type: string
+                  maxLength: 20
+              required:
+              - nome
+              - email
+              - telefone
+              - endereco
+              - cnh
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  nome:
+                    type: string
+                    maxLength: 50
+                  email:
+                    type: string
+                    maxLength: 120
+                  telefone:
+                    type: string
+                    maxLength: 15
+                  endereco:
+                    type: string
+                    maxLength: 140
+                  cnh:
+                    type: string
+                    maxLength: 20
+                required:
+                - nome
+                - email
+                - telefone
+                - endereco
+                - cnh
+          description: ''
+    patch:
+      operationId: partial_updateCliente
+      parameters:
+      - name: cpf
+        in: path
+        required: true
+        description: A unique value identifying this cliente.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                nome:
+                  type: string
+                  maxLength: 50
+                email:
+                  type: string
+                  maxLength: 120
+                telefone:
+                  type: string
+                  maxLength: 15
+                endereco:
+                  type: string
+                  maxLength: 140
+                cnh:
+                  type: string
+                  maxLength: 20
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  nome:
+                    type: string
+                    maxLength: 50
+                  email:
+                    type: string
+                    maxLength: 120
+                  telefone:
+                    type: string
+                    maxLength: 15
+                  endereco:
+                    type: string
+                    maxLength: 140
+                  cnh:
+                    type: string
+                    maxLength: 20
+                required:
+                - nome
+                - email
+                - telefone
+                - endereco
+                - cnh
+          description: ''
+    delete:
+      operationId: destroyCliente
+      parameters:
+      - name: cpf
+        in: path
+        required: true
+        description: A unique value identifying this cliente.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /api/concessionarias/:
+    get:
+      operationId: listConcessionarias
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    url:
+                      type: string
+                      readOnly: true
+                    endereco:
+                      type: string
+                      maxLength: 140
+                    cnpj:
+                      type: string
+                      maxLength: 20
+                    status:
+                      type: string
+                      maxLength: 15
+                    telefone:
+                      type: string
+                      maxLength: 15
+                    horario_funcionamento:
+                      type: string
+                      maxLength: 25
+                    email:
+                      type: string
+                      maxLength: 120
+                  required:
+                  - endereco
+                  - cnpj
+                  - status
+                  - telefone
+                  - horario_funcionamento
+                  - email
+          description: ''
+    post:
+      operationId: createConcessionaria
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                endereco:
+                  type: string
+                  maxLength: 140
+                cnpj:
+                  type: string
+                  maxLength: 20
+                status:
+                  type: string
+                  maxLength: 15
+                telefone:
+                  type: string
+                  maxLength: 15
+                horario_funcionamento:
+                  type: string
+                  maxLength: 25
+                email:
+                  type: string
+                  maxLength: 120
+              required:
+              - endereco
+              - cnpj
+              - status
+              - telefone
+              - horario_funcionamento
+              - email
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  endereco:
+                    type: string
+                    maxLength: 140
+                  cnpj:
+                    type: string
+                    maxLength: 20
+                  status:
+                    type: string
+                    maxLength: 15
+                  telefone:
+                    type: string
+                    maxLength: 15
+                  horario_funcionamento:
+                    type: string
+                    maxLength: 25
+                  email:
+                    type: string
+                    maxLength: 120
+                required:
+                - endereco
+                - cnpj
+                - status
+                - telefone
+                - horario_funcionamento
+                - email
+          description: ''
+  /api/concessionarias/{id}/:
+    get:
+      operationId: retrieveConcessionaria
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this concessionaria.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  endereco:
+                    type: string
+                    maxLength: 140
+                  cnpj:
+                    type: string
+                    maxLength: 20
+                  status:
+                    type: string
+                    maxLength: 15
+                  telefone:
+                    type: string
+                    maxLength: 15
+                  horario_funcionamento:
+                    type: string
+                    maxLength: 25
+                  email:
+                    type: string
+                    maxLength: 120
+                required:
+                - endereco
+                - cnpj
+                - status
+                - telefone
+                - horario_funcionamento
+                - email
+          description: ''
+    put:
+      operationId: updateConcessionaria
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this concessionaria.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                endereco:
+                  type: string
+                  maxLength: 140
+                cnpj:
+                  type: string
+                  maxLength: 20
+                status:
+                  type: string
+                  maxLength: 15
+                telefone:
+                  type: string
+                  maxLength: 15
+                horario_funcionamento:
+                  type: string
+                  maxLength: 25
+                email:
+                  type: string
+                  maxLength: 120
+              required:
+              - endereco
+              - cnpj
+              - status
+              - telefone
+              - horario_funcionamento
+              - email
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  endereco:
+                    type: string
+                    maxLength: 140
+                  cnpj:
+                    type: string
+                    maxLength: 20
+                  status:
+                    type: string
+                    maxLength: 15
+                  telefone:
+                    type: string
+                    maxLength: 15
+                  horario_funcionamento:
+                    type: string
+                    maxLength: 25
+                  email:
+                    type: string
+                    maxLength: 120
+                required:
+                - endereco
+                - cnpj
+                - status
+                - telefone
+                - horario_funcionamento
+                - email
+          description: ''
+    patch:
+      operationId: partial_updateConcessionaria
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this concessionaria.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                endereco:
+                  type: string
+                  maxLength: 140
+                cnpj:
+                  type: string
+                  maxLength: 20
+                status:
+                  type: string
+                  maxLength: 15
+                telefone:
+                  type: string
+                  maxLength: 15
+                horario_funcionamento:
+                  type: string
+                  maxLength: 25
+                email:
+                  type: string
+                  maxLength: 120
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  url:
+                    type: string
+                    readOnly: true
+                  endereco:
+                    type: string
+                    maxLength: 140
+                  cnpj:
+                    type: string
+                    maxLength: 20
+                  status:
+                    type: string
+                    maxLength: 15
+                  telefone:
+                    type: string
+                    maxLength: 15
+                  horario_funcionamento:
+                    type: string
+                    maxLength: 25
+                  email:
+                    type: string
+                    maxLength: 120
+                required:
+                - endereco
+                - cnpj
+                - status
+                - telefone
+                - horario_funcionamento
+                - email
+          description: ''
+    delete:
+      operationId: destroyConcessionaria
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this concessionaria.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''

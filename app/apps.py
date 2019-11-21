@@ -8,6 +8,7 @@ class MyAppConfig(AppConfig):
 
     def ready(self):
         from django.contrib.auth.models import Group, Permission
+        from . import signals # noqa
         print('oooooooooooooooooooooooooooooooooooooooooooooo')
         # Group = self.get_model('django.contrib.auth.Group')
         # Permission = self.get_model('Permission')

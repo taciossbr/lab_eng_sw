@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app.apps.MyAppConfig'
+    'app.apps.MyAppConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,6 @@ STATIC_URL = '/static/'
 
 # Login
 LOGIN_REDIRECT_URL = '/login-success'
+
+
+BASE_MONTADORA = 'http://seilaeu.com'
